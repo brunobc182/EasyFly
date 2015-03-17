@@ -12,10 +12,6 @@ local up = false --determinina se o aviao vai para cima
 local blockTime -- tempo do block
 local speed = 5 -- velocidade os obstaculos
 
-
-
-
-
 --Iniciando a Fisica
 local physics = require( "physics")
 physics.start()
@@ -130,8 +126,6 @@ local function onCollision(event)
   display.remove(aviao)
   alert()  
 end
-
-
 
 
 bg1:addEventListener( 'touch', movePlayer )
