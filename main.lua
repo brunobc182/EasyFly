@@ -16,6 +16,7 @@ local speed = 1 -- velocidade os obstaculos
 local tm -- Mé Henrique cancelar a criação de Blocos
 
 
+
 --Iniciando a Fisica
 local physics = require( "physics")
 physics.start()
