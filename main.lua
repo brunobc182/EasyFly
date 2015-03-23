@@ -6,37 +6,42 @@ math.randomseed( os.time() )
 --Variaveis
 _W = display.contentWidth
 _H = display.contentHeight
+_W2 = display.contentCenterX
+_H2 = display.contentCenterY
 local scroll = 3 --velocidade do BG
 local impulse = - 50 --faz o aviao subir
 local up = false --determinina se o aviao vai para cima
 local blockTime -- tempo do block
-local speed = 5 -- velocidade os obstaculos
+local speed = 1 -- velocidade os obstaculos
+local tm -- Mé Henrique cancelar a criação de Blocos
+
 
 --Iniciando a Fisica
 local physics = require( "physics")
 physics.start()
 --physics.setDrawMode("hybrid")
 
+
 --add Imagens do BG
 local bg1 = display.newImageRect("image/bg02.png", _W, _H)
-bg1.x = _W/2 
-bg1.y = _H/2
+bg1.x = _W2 
+bg1.y = _H2
  
 local bg2 = display.newImageRect("image/bg02.png", _W, _H)
 bg2.x = bg1.x + _W
-bg2.y = _H/2
+bg2.y = _H2
 
 local bg3 = display.newImageRect("image/bg02.png", _W, _H)
 bg3.x = bg2.x + _W
-bg3.y = _H/2
+bg3.y = _H2
 
 
 --add Teto e piso
-local teto = display.newRect( _W/2, 0, _W+50, 1 )
+local teto = display.newRect( _W2, -1, _W+100, 1 )
 teto:setFillColor( 0,0,0 )
 physics.addBody( teto, "static" )
 
-local piso = display.newRect( _W/2, _H, _W+50, 0.1 )
+local piso = display.newRect( _W2, _H, _W+100, 0.1 )
 piso:setFillColor( 0, 0, 0 )
 physics.addBody( piso, "static" )
 
@@ -44,8 +49,11 @@ physics.addBody( piso, "static" )
 local aviao = display.newImage( "image/aviao.png")
 physics.addBody(aviao)
 aviao.x = 50
-aviao.y = _H / 2
+aviao.y = _H2
 
+--Criando o Score
+local score = display.newText('0', 300, 300, native.systemFontBold, 14)
+score:setTextColor(255, 255, 255)
 
 local blocks = display.newGroup()
 
@@ -88,15 +96,14 @@ end
 
 --cria os obstaculos
 local function createBlocks(event)
- local passaro  
-  passaro = display.newImage( "image/passaro.png ")
+
+ local passaro = display.newImage("image/passaro.png")    
   passaro.x = _W
   passaro.y = math.random( _H - 20 )
   passaro.name = 'passaro'
   physics.addBody(passaro, "kinematic") 
   passaro.isSensor = true
   blocks:insert( passaro )
-
 end
 
 
@@ -112,19 +119,37 @@ local function update(event)
       blocks[i].x = blocks[i].x - speed
     end
   end
+  --incrementando o score
+  score.text = tostring(tonumber(score.text) + 1)
+end
+
+local function velocidade()
+
+  speed = speed + 1
+
+  
 end
 
 local function alert()
-  local gameover = display.newText( "GAME OVER", _W/2, _H/2, native.systemFontBold, 40)
-  gameover.x = _W/2
-  gameover.y = _H/2  
+  local gameover = display.newText( "GAME OVER", _W2, _H2, native.systemFontBold, 40)
+  gameover.x = _W2
+  gameover.y = _H2  
   --para a fisica depois de um tempo
-  timer.performWithDelay(1000, function() physics.stop() end, 1)
+  
 end 
+
 
 local function onCollision(event)
   display.remove(aviao)
-  alert()  
+  bg1:removeEventListener( 'touch', movePlayer )
+  bg2:removeEventListener( 'touch', movePlayer )
+  bg3:removeEventListener( 'touch', movePlayer )
+  Runtime:removeEventListener( 'enterFrame', bgScroll )
+  Runtime:removeEventListener( 'enterFrame', update )
+  timer.cancel( tm )
+  audio.stop( 2 )
+  display.remove(passaro)
+  alert()
 end
 
 
@@ -133,8 +158,9 @@ bg2:addEventListener( 'touch', movePlayer )
 bg3:addEventListener( 'touch', movePlayer )
 Runtime:addEventListener( 'enterFrame', update )
 Runtime:addEventListener( 'enterFrame', bgScroll )
-timer.performWithDelay(1300, createBlocks, 0)
+tm = timer.performWithDelay( 1500, createBlocks, 0 )
 aviao:addEventListener( 'collision', onCollision )
+timer.performWithDelay( 5000, velocidade, 0 )
 
 
     
