@@ -12,7 +12,7 @@ settings =
 		-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
 
 		default = "landscapeRight",
-		supported = { "landscapRight" }
+		supported = { "landscapRight", "landscapeLeft" }
 	},
 	
 	excludeFiles =
