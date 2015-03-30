@@ -57,7 +57,7 @@ function Main()
   
   playBtn = display.newImage('image/play.png')
   playBtn.x = _W2
-  playBtn.y = _H2
+  playBtn.y = 200
   titleView = display.newGroup(titleBg, playBtn)  
   startButtonListeners('add')
 end
