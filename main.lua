@@ -15,7 +15,7 @@ local aviao
 local bg1
 local bg2
 local bg3
-local blocks
+local blocks --criação de blocos
 local scroll = 2 --velocidade do BG
 local impulse = - 60 --faz o aviao subir
 local up = false --determinina se o aviao vai para cima
