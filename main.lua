@@ -25,7 +25,6 @@ local tm --cancelar a criação de Blocos
 local speedTm -- amumentar velocidade dos passaros
 
 --add funções
-
 local Main = {}
 local startButtonListeners = {}
 local showGameView = {}
@@ -35,7 +34,6 @@ local createBlocks = {}
 local velocidade = {}
 local update = {}
 local alert = {}
-
 
 --add som do aviao
 --[[local somAviao = audio.loadStream( "sound/biplaneflying01.mp3" )
@@ -50,7 +48,6 @@ physics.start()
 --physics.setDrawMode("hybrid")
 
 function Main()
-
   titleBg = display.newImageRect('image/mainscreen.png', _W, _H)
   titleBg.x = _W2
   titleBg.y = _H2
@@ -86,7 +83,6 @@ bg2.y = _H2
 bg3 = display.newImageRect("image/bg02.png", _W, _H)
 bg3.x = bg2.x + _W
 bg3.y = _H2
-
 
 --add Teto e piso
 local teto = display.newRect( _W2, -1, _W+100, 1 )
@@ -143,7 +139,6 @@ function gameListeners(action)
 end
 
 function bgScroll (event)
-
 bg1.x = bg1.x - scroll
 bg2.x = bg2.x - scroll
 bg3.x = bg3.x - scroll
@@ -151,13 +146,13 @@ bg3.x = bg3.x - scroll
 	-- Movendo as imagens para o fim da tela
 if (bg1.x + bg1.contentWidth) < 0 then
 bg1:translate( _W * 3, 0 )
-end
+  end
 if (bg2.x + bg2.contentWidth) < 0 then
 bg2:translate( _W * 3, 0 )
-end
+  end
 if (bg3.x + bg3.contentWidth) < 0 then
 bg3:translate( _W * 3, 0 )
-end
+  end
 end
 
 --Função que ataulizada o movimento para cima
@@ -173,7 +168,6 @@ end
 
 --cria os obstaculos
 function createBlocks(event)
-
  local passaro = display.newImage("image/passaro.png")    
   passaro.x = _W
   passaro.y = math.random( _H - 20 )
@@ -183,8 +177,7 @@ function createBlocks(event)
   blocks:insert( passaro )
 end
 
-function update(event)
-  
+function update(event)  
   -- Move o avião para cima
   if(up) then
     impulse = impulse - 3
@@ -202,14 +195,11 @@ end
 
 function velocidade()
   speed = speed + 1
-
   --Icon
   local icon = display.newImage('image/speed.png', _W2 , _H2)
   transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
     transition.to(icon, {time = 200, alpha = 0.1, onComplete = function() display.remove(icon) icon = nil end}) end) end})
 end
-
-
 
 local function alert()
   local gameover = display.newText( "GAME OVER", _W2, _H2, native.systemFontBold, 50)
@@ -217,7 +207,6 @@ local function alert()
   gameover.y = _H2 
   gameListeners('rmv')
   --para a fisica depois de um tempo
-  
 end 
 
 -- função que para o audio, remove o avião e mostra o GAME OVER ao colidir em algo
