@@ -122,8 +122,7 @@ function gameListeners(action)
     Runtime:addEventListener( 'enterFrame', bgScroll )
     aviao:addEventListener( 'collision', onCollision )
     tm = timer.performWithDelay( 1300, createBlocks, 0 )   
-    speedTm = timer.performWithDelay( 5000, velocidade, 5 )
-  
+    speedTm = timer.performWithDelay( 5000, velocidade, 5 )  
   else
     bg1:removeEventListener( 'touch', movePlayer )
     bg2:removeEventListener( 'touch', movePlayer )
