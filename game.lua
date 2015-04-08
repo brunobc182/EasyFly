@@ -2,6 +2,7 @@ local composer = require("composer")
 local scene = composer.newScene( )
 local physycs = require( "physics")
 physics.start( )
+physics.setDrawMode( "hybrid")
 
 local aviao
 local bg1
@@ -15,6 +16,7 @@ local blockTime -- tempo do block
 local speed = 1 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
 local speedTm -- amumentar velocidade dos passaros
+local numberOfLives = 1
 
 --add funções
 local bgScroll = {}
@@ -30,55 +32,19 @@ local onCollision = {}
 
 function scene:create( event )
   local sceneGroup = self.view
+  setupBG()
+  setupGroups()
+  setupPlayer()
+  setupIns()
+  setupScore()
+  --add som do aviao
+  --[[local somAviao = audio.loadStream( "sound/biplaneflying01.mp3" )
+  local somAviaoLoop = audio.play( somAviao, {channel=1, loops=-1} )--]]
 
---add som do aviao
---[[local somAviao = audio.loadStream( "sound/biplaneflying01.mp3" )
-local somAviaoLoop = audio.play( somAviao, {channel=1, loops=-1} )--]]
+  --Som do BG
+  local somBG = audio.loadStream( "sound/Jumpshot _Eric Skiff.mp3" )
+  audio.play(somBG, {loops = -1, channel = 1})  
 
---Som do BG
-local somBG = audio.loadStream( "sound/Jumpshot _Eric Skiff.mp3" )
-  
---add Imagens do BG
-bg1 = display.newImageRect("image/bg02.png", _W, _H)
-bg1.x = 0 
-bg1.y = _H2
- 
-bg2 = display.newImageRect("image/bg02.png", _W, _H)
-bg2.x = bg1.x + _W
-bg2.y = _H2
-
-bg3 = display.newImageRect("image/bg02.png", _W, _H)
-bg3.x = bg2.x + _W
-bg3.y = _H2
-
---add Teto e piso
-local teto = display.newRect( _W2, -1, _W+100, 1 )
-teto:setFillColor( 0,0,0 )
-physics.addBody( teto, "static" )
-
-
-local piso = display.newRect( _W2, _H, _W+100, 0.1 )
-piso:setFillColor( 0, 0, 0 )
-physics.addBody( piso, "static" )
-
--- add o avião
-aviao = display.newImage( "image/aviao.png")
-physics.addBody(aviao)
-aviao.x = 50
-aviao.y = _H2
-
---Criando o Score
-score = display.newText('0', _W2, 300, native.systemFontBold, 20)
-score:setTextColor(255, 255, 255)
-
-blocks = display.newGroup()
-audio.play(somBG, {loops = -1, channel = 1})
-
-
---msg de intrução
-ins = display.newImage('image/ins.png', _W2, _H2)
-  transition.from(ins, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(2000, function() 
-    transition.to(ins, {time = 200, alpha = 0.1, onComplete = function() display.remove(ins) ins = nil end}) end) end})
 end 
 
 
@@ -98,7 +64,7 @@ function scene:show( event )
       Runtime:addEventListener("enterFrame", gameLoop)
       Runtime:addEventListener("collision", onCollision)
       speedTm = timer.performWithDelay( 5000, velocidade, 0 )
-    end
+      end
 end
 
 function scene:hide( event )
@@ -114,11 +80,69 @@ function scene:hide( event )
     timer.cancel(tm)
     tm = nil
     timer.cancel( speedTm )
-    speedTm = nil   
+    speedTm = nil 
     elseif (phase == "did") then
     end
 end
 
+function setupBG( )
+  --add Imagens do BG
+bg1 = display.newImageRect("image/bg02.png", _W, _H)
+bg1.x = 0 
+bg1.y = _H2
+scene.view:insert( bg1 )
+
+bg2 = display.newImageRect("image/bg02.png", _W, _H)
+bg2.x = bg1.x + _W
+bg2.y = _H2
+scene.view:insert( bg2 )
+
+bg3 = display.newImageRect("image/bg02.png", _W, _H)
+bg3.x = bg2.x + _W
+bg3.y = _H2
+scene.view:insert( bg3 )
+--add Teto e piso
+teto = display.newRect( _W2, -1, _W+100, 1 )
+teto:setFillColor( 0,0,0 )
+physics.addBody( teto, "static" )
+teto.name = "teto"
+scene.view:insert( teto )
+
+piso = display.newRect( _W2, _H, _W+100, 0.1 )
+piso:setFillColor( 0, 0, 0 )
+physics.addBody( piso, "static" )
+piso.name = "piso"
+scene.view:insert( piso )
+end
+
+function setupGroups( )
+  blocks = display.newGroup()
+  aviaoGroup = display.newGroup( )
+  scene.view:insert( blocks )
+  scene.view:insert( aviaoGroup )
+end
+
+function setupPlayer( )
+  aviao = display.newImage( "image/aviao.png")
+  physics.addBody(aviao)
+  aviao.x = 50
+  aviao.y = _H2
+  aviao.name = "aviao"
+  scene.view:insert( aviao )
+end
+
+function setupIns( )
+  ins = display.newImage('image/ins.png', _W2, _H2)
+  transition.from(ins, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(2000, function() 
+    transition.to(ins, {time = 200, alpha = 0.1, onComplete = function() display.remove(ins) ins = nil end}) end) end})
+  scene.view:insert( ins)
+end
+
+function setupScore( )
+  score = display.newText('0', _W2, 300, native.systemFontBold, 20)
+  score:setTextColor(255, 255, 255)
+  scene.view:insert( score )
+end
 
 function bgScroll (event)
 bg1.x = bg1.x - scroll
@@ -191,14 +215,38 @@ function velocidade()
 end
 
 
---função que para o audio, remove o avião e mostra o GAME OVER ao colidir em algo
-function onCollision(event) 
-  if (event.phase == "began") then
-    audio.stop( 1 )
-    gameOver()
-    elseif(event.phase == "ended") then
+--função de colisão que chama o gameOver quando o avião colide em algum objeto
+function onCollision(event)
+    --SNIP--
+    if ( event.phase == "began" ) then
+        --SNIP--
+        
+        if(event.object1.name == "aviao" and event.object2.name == "passaro") then            
+            gameOver()
+        end
+         
+         if(event.object1.name == "passaro" and event.object2.name == "aviao") then            
+            gameOver()
+        end
+         if(event.object1.name == "aviao" and event.object2.name == "teto") then         
+            gameOver()
+        end
+        if(event.object1.name == "aviao" and event.object2.name == "piso") then            
+            gameOver()
+        end
+        if(event.object1.name == "teto" and event.object2.name == "aviao") then            
+            gameOver()
+        end
+        if(event.object1.name == "piso" and event.object2.name == "aviao") then            
+            gameOver()
+        end
+    end
+end
 
-  end
+
+function gameOver(  )
+  audio.stop( 1 )
+  composer.gotoScene( "gameover" )
 end
 
 function gameLoop()
@@ -207,11 +255,6 @@ function gameLoop()
   scoreUp()
   bgScroll()  
 end
-
-function gameOver(  )
-  composer.gotoScene( "gameover" )
-end
-
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

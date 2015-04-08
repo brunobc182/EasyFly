@@ -20,7 +20,7 @@ end
 function scene:create( event )
 	local sceneGroup = self.view
 
-	menuBG = display.newImageRect( "image/mainscreen.png", _W, _H )
+	menuBG = display.newImageRect( "image/passaro.png", _W, _H )
 	menuBG.x = _W2
 	menuBG.y = _H2
 	sceneGroup:insert(menuBG)
@@ -41,6 +41,9 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
+
+	local previousScene = composer.getSceneName( "previous" )
+    composer.removeScene( previousScene )
 
 	if (phase == "will") then
 	end
@@ -69,6 +72,8 @@ end
 function startGame( )
 	composer.gotoScene( "game" )
 end
+
+
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )

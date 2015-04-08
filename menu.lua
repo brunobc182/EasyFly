@@ -41,9 +41,7 @@ function scene:hide( event )
 		end
 end
 
-function scene:destroy( event )
-	local sceneGroup = self.view
-end
+
 
 function startGame( )
 	composer.gotoScene( "game" )
