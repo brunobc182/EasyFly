@@ -20,21 +20,26 @@ end
 function scene:create( event )
 	local sceneGroup = self.view
 
-	menuBG = display.newImageRect( "image/passaro.png", _W, _H )
-	menuBG.x = _W2
-	menuBG.y = _H2
-	sceneGroup:insert(menuBG)
+	gameoverBG = display.newImageRect( "image/gameoverBG.png", _W, _H )
+	gameoverBG.x = _W2
+	gameoverBG.y = _H2
+	sceneGroup:insert(gameoverBG)
 
-	menuBtn = display.newImage( "image/menu.png")
-	menuBtn.x = _W2
-	menuBtn.y = _H2 - 50
+	menuBtn = display.newImage( "image/menuBtn.png")
+	menuBtn.x = 100
+	menuBtn.y = _H2
 	sceneGroup:insert(menuBtn)
 
 
-	retryBtn = display.newImage( "image/retry.png")
-	retryBtn.x = _W2
-	retryBtn.y = _H2
+	retryBtn = display.newImage( "image/retryBtn.png")
+	retryBtn.x = 150
+	retryBtn.y = _H2 + 50
 	sceneGroup:insert(retryBtn)
+
+	bestscoresBtn = display.newImage( "image/bestscoresBtn.png")
+	bestscoresBtn.x = 200
+	bestscoresBtn.y = _H2 + 100
+	sceneGroup:insert(bestscoresBtn)
 	
 end
 
