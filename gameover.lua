@@ -25,19 +25,18 @@ function scene:create( event )
 	gameoverBG.y = _H2
 	sceneGroup:insert(gameoverBG)
 
-	menuBtn = display.newImage( "image/menuBtn.png")
-	menuBtn.x = 100
+	menuBtn = display.newImageRect( "image/menuBtn.png", 100, 25)
+	menuBtn.x = 70
 	menuBtn.y = _H2
 	sceneGroup:insert(menuBtn)
 
-
-	retryBtn = display.newImage( "image/retryBtn.png")
-	retryBtn.x = 150
+	retryBtn = display.newImageRect( "image/retryBtn.png", 100, 25)
+	retryBtn.x = 120
 	retryBtn.y = _H2 + 50
 	sceneGroup:insert(retryBtn)
 
-	bestscoresBtn = display.newImage( "image/bestscoresBtn.png")
-	bestscoresBtn.x = 200
+	bestscoresBtn = display.newImageRect( "image/bestscoresBtn.png", 100, 25)
+	bestscoresBtn.x = 170
 	bestscoresBtn.y = _H2 + 100
 	sceneGroup:insert(bestscoresBtn)
 	

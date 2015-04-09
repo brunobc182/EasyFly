@@ -7,6 +7,8 @@ local composer = require("composer")
 local scene = composer.newScene( )
 local menuBG
 local playBtn
+local creditsBtn
+local bestscoresBtn
 
 
 function scene:create( event )
@@ -17,10 +19,20 @@ function scene:create( event )
 	menuBG.y = _H2
 	sceneGroup:insert(menuBG)
 
-	playBtn = display.newImage( "image/play.png")
+	playBtn = display.newImageRect( "image/playBtn.png", 100, 25)
 	playBtn.x = _W2
 	playBtn.y = _H2
 	sceneGroup:insert(playBtn)
+
+	bestscoresBtn = display.newImageRect( "image/bestscoresBtn.png", 100, 25)
+	bestscoresBtn.x = _W2
+	bestscoresBtn.y = _H2 + 50
+	sceneGroup:insert(bestscoresBtn)
+
+	creditsBtn = display.newImageRect( "image/creditsBtn.png", 100, 25)
+	creditsBtn.x = _W2
+	creditsBtn.y = _H2 + 100
+	sceneGroup:insert(creditsBtn)
 end
 
 function scene:show( event )

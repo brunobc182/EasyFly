@@ -4,14 +4,14 @@ local physycs = require( "physics")
 physics.start( )
 physics.setDrawMode( "hybrid")
 
-local aviao
+local player
 local bg1
 local bg2
 local bg3
 local blocks --criação de blocos
 local scroll = 2 --velocidade do BG
-local impulse = - 60 --faz o aviao subir
-local up = false --determinina se o aviao vai para cima
+local impulse = - 60 --faz o player subir
+local up = false --determinina se o player vai para cima
 local blockTime -- tempo do block
 local speed = 1 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
@@ -37,9 +37,9 @@ function scene:create( event )
   setupPlayer()
   setupIns()
   setupScore()
-  --add som do aviao
-  --[[local somAviao = audio.loadStream( "sound/biplaneflying01.mp3" )
-  local somAviaoLoop = audio.play( somAviao, {channel=1, loops=-1} )--]]
+  --add som do player
+  --[[local somplayer = audio.loadStream( "sound/biplaneflying01.mp3" )
+  local somplayerLoop = audio.play( somplayer, {channel=1, loops=-1} )--]]
 
   --Som do BG
   local somBG = audio.loadStream( "sound/Jumpshot _Eric Skiff.mp3" )
@@ -117,18 +117,26 @@ end
 
 function setupGroups( )
   blocks = display.newGroup()
-  aviaoGroup = display.newGroup( )
+  playerGroup = display.newGroup( )
   scene.view:insert( blocks )
-  scene.view:insert( aviaoGroup )
+  scene.view:insert( playerGroup )
 end
 
 function setupPlayer( )
-  aviao = display.newImage( "image/aviao.png")
-  physics.addBody(aviao)
-  aviao.x = 50
-  aviao.y = _H2
-  aviao.name = "aviao"
-  scene.view:insert( aviao )
+
+local options = { width = 50, height = 35, numFrames = 8}
+local playerSheet = graphics.newImageSheet( "image/playerSheet.png", options )
+local sequenceData = {
+  { name = "fly", start = 1, count = 8 , time = 1000, loopCount = 0}
+}
+
+player = display.newSprite( playerSheet, sequenceData )
+player.x = 50
+player.y = _H2
+player.name = "player"
+physics.addBody( player, "dinamic" )
+player:play()
+scene.view:insert( player )
 end
 
 function setupIns( )
@@ -187,7 +195,7 @@ function update(event)
   -- Move o avião para cima
   if(up) then
     impulse = impulse - 3
-    aviao:setLinearVelocity(0, impulse)
+    player:setLinearVelocity(0, impulse)
   end
 end
 
@@ -207,7 +215,7 @@ end
   end
 
 function velocidade()
-  speed = speed + 1
+  scroll = scroll + 1
   --Icon
   local icon = display.newImage('image/speed.png', _W2 , _H2)
   transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
@@ -221,23 +229,23 @@ function onCollision(event)
     if ( event.phase == "began" ) then
         --SNIP--
         
-        if(event.object1.name == "aviao" and event.object2.name == "passaro") then            
+        if(event.object1.name == "player" and event.object2.name == "passaro") then            
             gameOver()
         end
          
-         if(event.object1.name == "passaro" and event.object2.name == "aviao") then            
+         if(event.object1.name == "passaro" and event.object2.name == "player") then            
             gameOver()
         end
-         if(event.object1.name == "aviao" and event.object2.name == "teto") then         
+         if(event.object1.name == "player" and event.object2.name == "teto") then         
             gameOver()
         end
-        if(event.object1.name == "aviao" and event.object2.name == "piso") then            
+        if(event.object1.name == "player" and event.object2.name == "piso") then            
             gameOver()
         end
-        if(event.object1.name == "teto" and event.object2.name == "aviao") then            
+        if(event.object1.name == "teto" and event.object2.name == "player") then            
             gameOver()
         end
-        if(event.object1.name == "piso" and event.object2.name == "aviao") then            
+        if(event.object1.name == "piso" and event.object2.name == "player") then            
             gameOver()
         end
     end
