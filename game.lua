@@ -8,6 +8,7 @@ local player
 local bg1
 local bg2
 local bg3
+local bg
 local blocks --criação de blocos
 local scroll = 2 --velocidade do BG
 local impulse = - 60 --faz o player subir
@@ -17,7 +18,8 @@ local speed = 1 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
 local speedTm -- amumentar velocidade dos blocks
 local numberOfLives = 1
-local yPos = {50, 200, 400}
+local yPos = {50, 150, 250, 350, 450}
+local create = 3000
 
 --add funções
 local bgScroll = {}
@@ -48,7 +50,6 @@ function scene:create( event )
 
 end 
 
-
 function scene:show( event )
   local sceneGroup = self.view
   local phase = event.phase
@@ -61,7 +62,7 @@ function scene:show( event )
       bg1:addEventListener( 'touch', movePlayer )
       bg2:addEventListener( 'touch', movePlayer )
       bg3:addEventListener( 'touch', movePlayer )
-      tm = timer.performWithDelay( 1500, createBlocks, 0 )
+      tm = timer.performWithDelay( create, createBlocks, 0 )
       Runtime:addEventListener("enterFrame", gameLoop)
       Runtime:addEventListener("collision", onCollision)
       speedTm = timer.performWithDelay( 5000, velocidade, 0 )
@@ -88,20 +89,29 @@ end
 
 function setupBG( )
   --add Imagens do BG
-bg1 = display.newImageRect("image/bg01.png", _W, _H)
+
+bg = display.newImageRect("image/bgAzul.png", _W, _H)
+bg.x = _W2
+bg.y = _H2
+scene.view:insert( bg)
+
+bg1 = display.newImageRect("image/bg04.png", _W, _H)
 bg1.x = _W2
 bg1.y = _H2
 scene.view:insert( bg1 )
 
-bg2 = display.newImageRect("image/bg01.png", _W, _H)
+bg2 = display.newImageRect("image/bg04.png", _W, _H)
 bg2.x = bg1.x + _W
 bg2.y = _H2
 scene.view:insert( bg2 )
 
-bg3 = display.newImageRect("image/bg01.png", _W, _H)
+bg3 = display.newImageRect("image/bg04.png", _W, _H)
 bg3.x = bg2.x + _W
 bg3.y = _H2
 scene.view:insert( bg3 )
+
+
+
 --add Teto e piso
 teto = display.newRect( _W2, -1, _W+100, 1 )
 teto:setFillColor( 0,0,0 )
@@ -216,6 +226,10 @@ end
       blocks[i].x = blocks[i].x - speed
     end
   end
+
+  if (blocks.x > _W) then
+    display.remove( blocks )
+  end
 end
 
   function scoreUp()
@@ -225,6 +239,7 @@ end
 
 function velocidade()
   speed = speed + 1
+  create = create - 1000
   --Icon
   local icon = display.newImage('image/speed.png', _W2 , _H2)
   transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
