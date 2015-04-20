@@ -5,6 +5,7 @@ physics.start( )
 --physics.setDrawMode( "hybrid")
 
 local player
+local coin
 local bg1
 local bg2
 local bg3
@@ -14,12 +15,19 @@ local scroll = 2 --velocidade do BG
 local impulse = - 60 --faz o player subir
 local up = false --determinina se o player vai para cima
 local blockTime -- tempo do block
-local speed = 1 -- velocidade os obstaculos
+local speed = 4000 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
+local tm1
+local tm2 -- Aumentar o score
 local speedTm -- amumentar velocidade dos blocks
 local numberOfLives = 1
-local yPos = {50, 150, 250, 350, 450}
+local yPos = {50, _H2, _H - 50}
 local create = 3000
+local score = 0
+local score1 = 0
+local scoreTxt
+local scoreTxt1
+local texto 
 
 --add funções
 local bgScroll = {}
@@ -28,45 +36,47 @@ local createBlocks = {}
 local velocidade = {}
 local update = {}
 local scoreUp = {}
+local scoreUp1 = {}
 local gameOver = {}
 local onCollision = {}
+local creatCoin = {}
+
 
 
 
 function scene:create( event )
   local sceneGroup = self.view
-  setupBG()
+  --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
+  setupBG()  
   setupGroups()
   setupPlayer()
   setupIns()
   setupScore()
-  --add som do player
-  --[[local somplayer = audio.loadStream( "sound/biplaneflying01.mp3" )
-  local somplayerLoop = audio.play( somplayer, {channel=1, loops=-1} )--]]
+  setupScore1()
 
   --Som do BG
   local somBG = audio.loadStream( "sound/Jumpshot _Eric Skiff.mp3" )
   audio.play(somBG, {loops = -1, channel = 1})  
-
 end 
 
 function scene:show( event )
   local sceneGroup = self.view
   local phase = event.phase
-
   
-    local previousScene = composer.getSceneName( "previous" )
-    composer.removeScene( previousScene )
+  local previousScene = composer.getSceneName( "previous" )
+  composer.removeScene( previousScene )
    
-    if (phase == "did") then    
-      bg1:addEventListener( 'touch', movePlayer )
-      bg2:addEventListener( 'touch', movePlayer )
-      bg3:addEventListener( 'touch', movePlayer )
-      tm = timer.performWithDelay( create, createBlocks, 0 )
-      Runtime:addEventListener("enterFrame", gameLoop)
-      Runtime:addEventListener("collision", onCollision)
-      speedTm = timer.performWithDelay( 5000, velocidade, 0 )
-      end
+  if (phase == "did") then    
+    bg1:addEventListener( 'touch', movePlayer )
+    bg2:addEventListener( 'touch', movePlayer )
+    bg3:addEventListener( 'touch', movePlayer )
+    tm = timer.performWithDelay( 2000, createBlocks, 0 )
+    tm1 = timer.performWithDelay( 5000, createCoin, 0 )
+    tm2 = timer.performWithDelay( 1000, scoreUp, 0 )
+    Runtime:addEventListener("enterFrame", gameLoop)
+    Runtime:addEventListener("collision", onCollision)
+    speedTm = timer.performWithDelay( 1005, velocidadeUp, 0 )
+  end
 end
 
 function scene:hide( event )
@@ -81,6 +91,8 @@ function scene:hide( event )
     Runtime:removeEventListener('collision', onCollision) 
     timer.cancel(tm)
     tm = nil
+    timer.cancel(tm1)
+    tm1 = nil
     timer.cancel( speedTm )
     speedTm = nil 
     elseif (phase == "did") then
@@ -158,10 +170,17 @@ function setupIns( )
 end
 
 function setupScore( )
-  score = display.newText('0', _W2, 300, native.systemFontBold, 20)
-  score:setTextColor(255, 255, 255)
-  scene.view:insert( score )
+  scoreTxt = display.newText('Score: 0', _W - 100, 300, native.systemFontBold, 20)
+  scoreTxt:setTextColor(255, 255, 255)
+  scene.view:insert( scoreTxt )
 end
+
+function setupScore1 ( )
+  scoreTxt1 = display.newText('x '..score1, 50, 300, native.systemFontBold, 20)
+  scoreTxt1:setTextColor(255, 255, 255)
+  scene.view:insert( scoreTxt1 )
+end
+
 
 function bgScroll (event)
 bg1.x = bg1.x - scroll
@@ -199,15 +218,31 @@ local playerSheet = graphics.newImageSheet( "image/blocksheet.png", options )
 local sequenceData = {
   { name = "fly", start = 1, count = 4 , time = 1000, loopCount = 0}
 }
-  local rnd = math.floor(math.random() * 4) + 1
+  --local rnd = math.floor(math.random() * 5) + 1
   block = display.newSprite(playerSheet, sequenceData)    
   block.x = _W
-  block.y = yPos[math.floor(math.random() * 3)+1]
+  block.y = math.random(25, _H - 50 )
   block.name = 'block'
   physics.addBody(block, "kinematic") 
   block.isSensor = true
   block:play( )
   blocks:insert( block )
+
+  transition.to( block, {time = speed, x = -30, y = block.y}  )
+end
+
+function createCoin(event)
+
+  local rnd = math.floor(math.random() * 3) + 1
+  coin = display.newImageRect( "image/coin.png", 30, 30)
+  coin.x = _W
+  coin.y = yPos[math.floor(math.random() * 3)+1]
+  coin.name = 'coin'
+  physics.addBody( coin, "kinematic" )
+  coin.isSensor = true
+  blocks:insert(coin)
+
+  transition.to( coin, {time = speed, x = -30, y =coin.y} )
 end
 
 function update(event)  
@@ -218,34 +253,42 @@ function update(event)
   end
 end
 
-
-  function moveBlocks()  
-   --move os obstaculos
-  if(blocks ~= nil)then
-    for i = 1, blocks.numChildren do
-      blocks[i].x = blocks[i].x - speed
-    end
-  end
-
-  if (blocks.x > _W) then
-    display.remove( blocks )
-  end
+function scoreUp()
+   --incrementando o score
+    score = score + 10
+    scoreTxt.text = string.format( "Score: %d", score)
 end
 
-  function scoreUp()
-   --incrementando o score
-  score.text = tostring(tonumber(score.text) + 1)
-  end
+function scoreUp1( )
+  score1 = score1 + 500
+  scoreTxt1 = string.format( "x %d", score1 )
+end
 
 function velocidade()
-  speed = speed + 1
-  create = create - 1000
-  --Icon
-  local icon = display.newImage('image/speed.png', _W2 , _H2)
-  transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
-    transition.to(icon, {time = 200, alpha = 0.1, onComplete = function() display.remove(icon) icon = nil end}) end) end})
+    speed = speed - 1000
+    --texto.text = "Velocidade "..speed
+    --create = create - 1000
+
+    --Icon
+    local icon = display.newImage('image/speed.png', _W2 , _H2)
+    transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
+      transition.to(icon, {time = 200, alpha = 0.1, onComplete = function() display.remove(icon) icon = nil end}) end) end})
 end
 
+function velocidadeUp(event)
+    if (score == 150) then
+        velocidade()
+    end
+    if (score == 300) then
+        velocidade()
+    end
+    if (score == 450) then
+        velocidade()
+    end
+    if (score == 600) then
+        velocidade()
+    end
+end
 
 --função de colisão que chama o gameOver quando o avião colide em algum objeto
 function onCollision(event)
@@ -272,21 +315,34 @@ function onCollision(event)
         if(event.object1.name == "piso" and event.object2.name == "player") then            
             gameOver()
         end
+        if(event.object1.name == "player" and event.object2.name == "coin") then            
+           scoreUp1() 
+           display.remove( coin )
+        end
+        if(event.object1.name == "coin" and event.object2.name == "player") then            
+          scoreUp1() 
+          display.remove( coin )
+        end
     end
 end
 
 
-function gameOver(  )
+local options1 = {  
+  effect = "fade", time = 200
+}
+
+function gameOver(  )  
   audio.stop( 1 )
-  composer.gotoScene( "gameover" )
+  display.remove( player )
+  transition.cancel( block )
+  composer.gotoScene( "gameover", options1 )
 end
 
 function gameLoop()
   update()
-  moveBlocks()
-  scoreUp()
   bgScroll()  
 end
+
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

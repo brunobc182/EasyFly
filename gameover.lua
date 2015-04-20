@@ -1,7 +1,7 @@
 
 --CRIANDO O MENU DO JOGO
 
---------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 local composer = require("composer")
 local scene = composer.newScene( )
@@ -25,21 +25,21 @@ function scene:create( event )
 	gameoverBG.y = _H2
 	sceneGroup:insert(gameoverBG)
 
-	menuBtn = display.newImageRect( "image/menuBtn.png", 100, 25)
-	menuBtn.x = 70
+	menuBtn = display.newImage( "image/menuBtn.png")
+	menuBtn.x = 80
 	menuBtn.y = _H2
 	sceneGroup:insert(menuBtn)
 
-	retryBtn = display.newImageRect( "image/retryBtn.png", 100, 25)
-	retryBtn.x = 120
+	retryBtn = display.newImage( "image/retryBtn.png")
+	retryBtn.x = 130
 	retryBtn.y = _H2 + 50
 	sceneGroup:insert(retryBtn)
 
-	bestscoresBtn = display.newImageRect( "image/bestscoresBtn.png", 100, 25)
-	bestscoresBtn.x = 170
+	bestscoresBtn = display.newImage( "image/bestscoresBtn.png")
+	bestscoresBtn.x = 180
 	bestscoresBtn.y = _H2 + 100
 	sceneGroup:insert(bestscoresBtn)
-	
+
 end
 
 function scene:show( event )
