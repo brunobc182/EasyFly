@@ -15,19 +15,21 @@ local scroll = 2 --velocidade do BG
 local impulse = - 60 --faz o player subir
 local up = false --determinina se o player vai para cima
 local blockTime -- tempo do block
-local speed = 4000 -- velocidade os obstaculos
+local speed = 3000 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
 local tm1
 local tm2 -- Aumentar o score
+local tm3 -- atualiza o mutiplicador
 local speedTm -- amumentar velocidade dos blocks
 local numberOfLives = 1
 local yPos = {50, _H2, _H - 50}
-local create = 3000
+local create = 2000
 local score = 0
-local score1 = 0
+local score1 = 1
 local scoreTxt
 local scoreTxt1
 local texto 
+
 
 --add funções
 local bgScroll = {}
@@ -55,7 +57,7 @@ function scene:create( event )
   setupScore1()
 
   --Som do BG
-  local somBG = audio.loadStream( "sound/Jumpshot _Eric Skiff.mp3" )
+  local somBG = audio.loadStream( "sound/DST-GreenSky.mp3" )
   audio.play(somBG, {loops = -1, channel = 1})  
 end 
 
@@ -70,9 +72,10 @@ function scene:show( event )
     bg1:addEventListener( 'touch', movePlayer )
     bg2:addEventListener( 'touch', movePlayer )
     bg3:addEventListener( 'touch', movePlayer )
-    tm = timer.performWithDelay( 2000, createBlocks, 0 )
+    tm = timer.performWithDelay( 1000, createBlocks, 0 )
     tm1 = timer.performWithDelay( 5000, createCoin, 0 )
     tm2 = timer.performWithDelay( 1000, scoreUp, 0 )
+    tm3 = timer.performWithDelay( 10, scoreUp1, 0 )
     Runtime:addEventListener("enterFrame", gameLoop)
     Runtime:addEventListener("collision", onCollision)
     speedTm = timer.performWithDelay( 1005, velocidadeUp, 0 )
@@ -122,8 +125,6 @@ bg3.x = bg2.x + _W
 bg3.y = _H2
 scene.view:insert( bg3 )
 
-
-
 --add Teto e piso
 teto = display.newRect( _W2, -1, _W+100, 1 )
 teto:setFillColor( 0,0,0 )
@@ -170,15 +171,15 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Score: 0', _W - 100, 300, native.systemFontBold, 20)
+  scoreTxt = display.newText('Score: 0', _W - 75, 300, native.systemFontBold, 20)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('x '..score1, 50, 300, native.systemFontBold, 20)
+  scoreTxt1 = display.newText('x' .. score1, 50, 300, native.systemFontBold, 20)
   scoreTxt1:setTextColor(255, 255, 255)
-  scene.view:insert( scoreTxt1 )
+  scene.view:insert( scoreTxt1)
 end
 
 
@@ -228,7 +229,7 @@ local sequenceData = {
   block:play( )
   blocks:insert( block )
 
-  transition.to( block, {time = speed, x = -30, y = block.y}  )
+  transition.to( block, {time = speed, x = -50, y = block.y})
 end
 
 function createCoin(event)
@@ -242,7 +243,7 @@ function createCoin(event)
   coin.isSensor = true
   blocks:insert(coin)
 
-  transition.to( coin, {time = speed, x = -30, y =coin.y} )
+  transition.to( coin, {time = speed, x = -30, y = coin.y} )
 end
 
 function update(event)  
@@ -254,18 +255,17 @@ function update(event)
 end
 
 function scoreUp()
-   --incrementando o score
+   --incrementando a distancia
     score = score + 10
     scoreTxt.text = string.format( "Score: %d", score)
 end
 
-function scoreUp1( )
-  score1 = score1 + 500
-  scoreTxt1 = string.format( "x %d", score1 )
+function scoreUp1( ) 
+  scoreTxt1.text = string.format( "x: %d", score1)
 end
 
 function velocidade()
-    speed = speed - 1000
+    speed = speed - 500
     --texto.text = "Velocidade "..speed
     --create = create - 1000
 
@@ -276,16 +276,16 @@ function velocidade()
 end
 
 function velocidadeUp(event)
-    if (score == 150) then
+    if (score == 100) then
+        velocidade()
+    end
+    if (score == 200) then
         velocidade()
     end
     if (score == 300) then
         velocidade()
     end
-    if (score == 450) then
-        velocidade()
-    end
-    if (score == 600) then
+    if (score == 400) then
         velocidade()
     end
 end
@@ -316,16 +316,18 @@ function onCollision(event)
             gameOver()
         end
         if(event.object1.name == "player" and event.object2.name == "coin") then            
-           scoreUp1() 
-           display.remove( coin )
+         score1 = score1 + 1
+         scoreUp1()
+         display.remove( coin )
         end
-        if(event.object1.name == "coin" and event.object2.name == "player") then            
-          scoreUp1() 
+        if(event.object1.name == "coin" and event.object2.name == "player") then 
+          score1 = score1 + 1           
+          scoreUp1()
           display.remove( coin )
         end
     end
 end
-
+ 
 
 local options1 = {  
   effect = "fade", time = 200
@@ -340,7 +342,7 @@ end
 
 function gameLoop()
   update()
-  bgScroll()  
+  bgScroll() 
 end
 
 

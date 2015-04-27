@@ -18,9 +18,10 @@ local easyFlyLogo
 local bgScroll = {}
 
 
-
 function scene:create( event )
 	local sceneGroup = self.view
+	local somBG = audio.loadStream( "sound/DST-AmbientKingdom.mp3" )
+  	audio.play(somBG, {loops = -1, channel = 1})
 
 	setupBG()
 	setupGroups()
@@ -104,18 +105,7 @@ end
 function bgScroll (event)
 cloud1.x = cloud1.x - scroll
 cloud2.x = cloud2.x - scroll
-end
-
-
---[[local options = {
-	
-	effect = "fade", time = 100
-}--]]
-
-function startGame( )
-	composer.gotoScene( "game" )
 cloud3.x = cloud3.x - scroll
-
   -- Movendo as imagens para o fim da tela
 if (cloud1.x + cloud1.contentWidth) < 0 then
 cloud1:translate( _W * 3, 0 )
@@ -128,6 +118,16 @@ cloud3:translate( _W * 3, 0 )
   end
 end
 
+
+--[[local options = {
+	
+	effect = "fade", time = 100
+}--]]
+
+function startGame( )
+	audio.stop(1)
+	composer.gotoScene( "game" )
+end
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
