@@ -16,6 +16,8 @@ local cloud3
 local bg
 local easyFlyLogo
 local bgScroll = {}
+local setupPlayer = {}
+
 
 
 function scene:create( event )
@@ -25,6 +27,7 @@ function scene:create( event )
 
 	setupBG()
 	setupGroups()
+	setupPlayer()
 	
 end
 
@@ -117,6 +120,25 @@ if (cloud3.x + cloud3.contentWidth) < 0 then
 cloud3:translate( _W * 3, 0 )
   end
 end
+
+function setupPlayer( )
+
+local options = { width = 50, height = 41, numFrames = 8}
+local playerSheet = graphics.newImageSheet( "image/playerSheet.png", options )
+local sequenceData = {
+  { name = "fly", start = 1, count = 8 , time = 1000, loopCount = 0}
+}
+
+player = display.newSprite( playerSheet, sequenceData )
+player.x = - 50
+player.y = _H2 - 50
+player.name = "player"
+physics.addBody( player, "dynamic" )
+player:play()
+playerGroup:insert( player )
+transition.to( player, {time = 1000, x = _W + 50, y = player.y, onComplete = function( ) player.x = -50 end})
+end
+
 
 
 --[[local options = {

@@ -1,7 +1,7 @@
 local composer = require("composer")
 local scene = composer.newScene( )
+local physycs = require( "physics")
 --physics.setDrawMode( "hybrid")
-
 
 local coin
 local bg1
@@ -22,12 +22,13 @@ local yPos = {50, _H2, _H - 50}
 local create = 2000
 local impulse = - 60 --faz o player subir
 local scroll = 2 --velocidade do BG
-local score = 0
-local score1 = 1
+--local scoreAux
+--local score1Aux
 local scoreTxt
 local scoreTxt1
 local texto
 local playerGroup
+local coin1
 
 
 --add funções
@@ -48,13 +49,11 @@ local setupPlayer = {}
 
 function scene:create( event )  
   local sceneGroup = self.view
-  local physycs = require( "physics")
   physics.start( )
-
    --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
-  setupPlayer()  
+  setupPlayer()   
   setupIns()
   setupScore()
   setupScore1()
@@ -70,16 +69,15 @@ function scene:show( event )
   
   local previousScene = composer.getSceneName( "previous" )
   composer.removeScene( previousScene )
-  
    
-  if (phase == "did") then
-    
+  if (phase == "did") then    
+   
     bg:addEventListener( 'touch', movePlayer )   
     bg1:addEventListener( 'touch', movePlayer )
     bg2:addEventListener( 'touch', movePlayer )
     bg3:addEventListener( 'touch', movePlayer )
     tm = timer.performWithDelay( 2000, createBlocks, 0 )
-    tm1 = timer.performWithDelay( 4239, createCoin, 0 )
+    tm1 = timer.performWithDelay( 4234, createCoin, 0 )
     tm2 = timer.performWithDelay( 1000, scoreUp, 0 )
     tm3 = timer.performWithDelay( 10, scoreUp1, 0 )
     Runtime:addEventListener("enterFrame", gameLoop)
@@ -150,6 +148,13 @@ bg3.x = bg2.x + _W
 bg3.y = _H2
 scene.view:insert( bg3 )
 
+coin1 = display.newImageRect( "image/coin1.png", 35, 35)
+coin1.x = 150
+coin1.y = 300
+scene.view:insert(coin1)
+
+
+
 --add Teto e piso
 teto = display.newRect( _W2, -1, _W+100, 1 )
 teto:setFillColor( 0,0,0 )
@@ -186,7 +191,6 @@ player.name = "player"
 physics.addBody( player, "dynamic" )
 player:play()
 playerGroup:insert( player )
-print( "passarim" )
 end
 
 
@@ -233,13 +237,13 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Score 0', _W - 75, 300, native.systemFontBold, 20)
+  scoreTxt = display.newText('Score 0', _W - 150, 300, native.systemFontBold, 20)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('x' .. score1, 50, 300, native.systemFontBold, 20)
+  scoreTxt1 = display.newText('' .. score1, 150, 300, native.systemFontBold, 20)
   scoreTxt1:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt1)
 end
@@ -274,7 +278,8 @@ function movePlayer(event)
 end
 
 
-function update(event)  
+function update(event)
+
   -- Move o avião para cima
   if(up) then
     impulse = impulse - 3
@@ -289,11 +294,11 @@ function scoreUp()
 end
 
 function scoreUp1( ) 
-  scoreTxt1.text = string.format( "x%d", score1)
+  scoreTxt1.text = string.format( "%d", score1)
 end
 
 function velocidade()
-    speed = speed - 500
+    speed = speed - 1000
     --texto.text = "Velocidade "..speed
     --create = create - 1000
 
@@ -304,16 +309,16 @@ function velocidade()
 end
 
 function velocidadeUp(event)
-    if (score == 100) then
+    if (score == 250) then
         velocidade()
     end
-    if (score == 200) then
+    if (score == 500) then
         velocidade()
     end
-    if (score == 300) then
+    if (score == 750) then
         velocidade()
     end
-    if (score == 400) then
+    if (score == 1000) then
         velocidade()
     end
 end
@@ -357,14 +362,14 @@ function onLocalCollision(event)
 end
  
 function nextLevel(event)
-  if(score == 100) then
+  if(score == 200) then
     composer.gotoScene( "game1", options1 )
   end
 end
 
 
 local options1 = {  
-  effect = "fade", time = 100
+  effect = "fade", time = 500
 }
 
 function gameOver(  )

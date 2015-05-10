@@ -22,12 +22,13 @@ local yPos = {50, _H2, _H - 50}
 local create = 2000
 local impulse = - 60 --faz o player subir
 local scroll = 2 --velocidade do BG
-local score = 0
-local score1 = 1
+--local score = 0
+--local score1 = 1
 local scoreTxt
 local scoreTxt1
 local texto
 local playerGroup
+local coin1
 
 
 --add funções
@@ -136,6 +137,11 @@ bg3.x = bg2.x + _W
 bg3.y = _H - 45
 scene.view:insert( bg3 )
 
+coin1 = display.newImageRect( "image/coin1.png", 35, 35)
+coin1.x = 150
+coin1.y = 300
+scene.view:insert(coin1)
+
 --add Teto e piso
 teto = display.newRect( _W2, -1, _W+100, 1 )
 teto:setFillColor( 0,0,0 )
@@ -218,13 +224,13 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Score 0', _W - 75, 300, native.systemFontBold, 20)
+  scoreTxt = display.newText('Score  ', _W - 150, 300, native.systemFontBold, 20)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('x' .. score1, 50, 300, native.systemFontBold, 20)
+  scoreTxt1 = display.newText('' .. score1, 150, 300, native.systemFontBold, 20)
   scoreTxt1:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt1)
 end
@@ -274,7 +280,7 @@ function scoreUp()
 end
 
 function scoreUp1( ) 
-  scoreTxt1.text = string.format( "x%d", score1)
+  scoreTxt1.text = string.format( "%d", score1)
 end
 
 function velocidade()
@@ -346,7 +352,7 @@ local options1 = {
 }
 
 function gameOver(  )  
-  audio.stop( 1 )
+  audio.stop( 2 )
   display.remove( player )
   transition.cancel( block )
   composer.gotoScene( "gameover", options1 )

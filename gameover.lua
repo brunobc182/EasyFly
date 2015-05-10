@@ -65,6 +65,8 @@ function scene:hide( event )
 	if (phase == "will") then
 		menuBtn:removeEventListener( "tap", menuGame )
 		retryBtn:removeEventListener( "tap", startGame )
+		score = 0
+		score1 = 1
 	end
 end
 
