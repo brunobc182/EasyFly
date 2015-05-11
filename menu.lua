@@ -136,7 +136,7 @@ player.name = "player"
 physics.addBody( player, "dynamic" )
 player:play()
 playerGroup:insert( player )
-transition.to( player, {time = 1000, x = _W + 50, y = player.y, onComplete = function( ) player.x = -50 end})
+transition.to( player, {time = 20000, x = _W + 50, y = player.y})
 end
 
 

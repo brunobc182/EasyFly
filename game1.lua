@@ -31,6 +31,7 @@ local playerGroup
 local coin1
 
 
+
 --add funções
 local setupPlayer = {}
 local bgScroll = {}
@@ -93,7 +94,6 @@ function scene:hide( event )
   local phase = event.phase
 
   if (phase == "will") then
-    physics.stop( ) 
     bg:removeEventListener( 'touch', movePlayer )
     bg1:removeEventListener( 'touch', movePlayer )
     bg2:removeEventListener( 'touch', movePlayer )
@@ -137,10 +137,12 @@ bg3.x = bg2.x + _W
 bg3.y = _H - 45
 scene.view:insert( bg3 )
 
-coin1 = display.newImageRect( "image/coin1.png", 35, 35)
-coin1.x = 150
+coin1 = display.newImageRect( "image/coin1.png", 30, 30)
+coin1.x = _W - 50
 coin1.y = 300
 scene.view:insert(coin1)
+
+
 
 --add Teto e piso
 teto = display.newRect( _W2, -1, _W+100, 1 )
@@ -224,15 +226,15 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Score  ', _W - 150, 300, native.systemFontBold, 20)
+  scoreTxt = display.newText('Distance ', _W - 150, 300, "HoboStd", 16)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('' .. score1, 150, 300, native.systemFontBold, 20)
+  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, "HoboStd", 16)
   scoreTxt1:setTextColor(255, 255, 255)
-  scene.view:insert( scoreTxt1)
+  scene.view:insert( scoreTxt1 )
 end
 
 
@@ -276,7 +278,7 @@ end
 function scoreUp()
    --incrementando a distancia
     score = score + 10
-    scoreTxt.text = string.format( "Score %d", score)
+    scoreTxt.text = string.format( "Distance %d", score)
 end
 
 function scoreUp1( ) 
