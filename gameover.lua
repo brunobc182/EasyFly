@@ -13,6 +13,7 @@ local score1Txt
 local scoreFinal
 local scoreFinalTxT
 local scoreInfo
+local iconGameOver
 
 local finalScore = {}
 
@@ -35,30 +36,35 @@ function scene:create( event )
 	gameoverBG.y = _H2
 	sceneGroup:insert(gameoverBG)	
 
-	menuBtn = display.newImageRect( "image/menuBtn1.png", 50, 49)
+	menuBtn = display.newImage( "image/menuBtn1.png")
 	menuBtn.x = 80
 	menuBtn.y = _H2 + 120
 	sceneGroup:insert(menuBtn)
 
-	retryBtn = display.newImageRect( "image/retryBtn1.png", 50, 49)
+	retryBtn = display.newImage( "image/retryBtn1.png")
 	retryBtn.x = 240
 	retryBtn.y = _H2 + 120
 	sceneGroup:insert(retryBtn)
 
-	scoreInfo = display.newImageRect( "image/scoreInfo.png", 160, 118)
-	scoreInfo.x = _W2
+	scoreInfo = display.newImage( "image/scoreInfo.png")
+	scoreInfo.x = _W2 - 75
 	scoreInfo.y = _H2 + 20
 	scene.view:insert( scoreInfo )
 
-	scoreTxt = display.newText('' .. score, _W2 + 50, _H2 + 20, "HoboStd", 16)
+	iconGameOver = display.newImage( "image/iconGameOver.png")
+	iconGameOver.x = _W2 + 120
+	iconGameOver.y = _H2 + 20
+	sceneGroup:insert(iconGameOver)	
+
+	scoreTxt = display.newText('' .. score, _W2 - 25, _H2 + 20, native.systemFontBold, 16)
   	scoreTxt:setTextColor(255, 255, 255)
   	scene.view:insert( scoreTxt )
 
-  	scoreTxt1 = display.newText('' .. score1, _W2 + 50, _H2 - 25, "HoboStd", 16)
+  	scoreTxt1 = display.newText('' .. score1, _W2 - 25, _H2 - 25, native.systemFontBold, 16)
   	scoreTxt1:setTextColor(255, 255, 255)
  	scene.view:insert( scoreTxt1)
 
- 	scoreFinalTxT= display.newText('' .. scoreFinal, _W2 + 50, _H2 + 65, "HoboStd", 16)
+ 	scoreFinalTxT= display.newText('' .. scoreFinal, _W2 - 25, _H2 + 67, native.systemFontBold, 16)
   	scoreFinalTxT:setTextColor(255, 255, 255)
  	scene.view:insert( scoreFinalTxT )
 
@@ -66,7 +72,6 @@ function scene:create( event )
 	bestscoresBtn.x = 180
 	bestscoresBtn.y = _H2 + 100
 	sceneGroup:insert(bestscoresBtn)--]]
-
 end
 
 function scene:show( event )

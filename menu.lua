@@ -13,6 +13,7 @@ local scroll = 1
 local cloud1
 local cloud2
 local cloud3
+local iconMainScreen
 local bg
 local easyFlyLogo
 local bgScroll = {}
@@ -77,29 +78,34 @@ function setupBG(  )
 	cloud3.y = 50
 	scene.view:insert(cloud3)
 
-	easyFlyLogo = display.newImageRect("image/easyflyLogo.png", 300, 75)
+	easyFlyLogo = display.newImage("image/mainscreenBG01.png")
 	easyFlyLogo.x = _W2
 	easyFlyLogo.y = _H2 - 100
 	scene.view:insert(easyFlyLogo)
 	
-
-	menuBG = display.newImageRect( "image/mainscreenBG.png", _W, 100 )
+	menuBG = display.newImageRect("image/mainscreenBG.png", _W, 100 )
 	menuBG.x = _W2
 	menuBG.y = _H - 30
-	scene.view:insert(menuBG)	
+	scene.view:insert(menuBG)
+
+	iconMainScreen = display.newImage("image/iconMainScreen.png")
+	iconMainScreen.x = _W2
+	iconMainScreen.y = _H2
+	scene.view:insert(iconMainScreen)	
+	
 
 	playBtn = display.newImageRect( "image/playBtn.png", 100, 25)
-	playBtn.x = _W2
-	playBtn.y = _H2
+	playBtn.x = _W2 - 150
+	playBtn.y = _H2 + 100
 	scene.view:insert(playBtn)
 
 	bestscoresBtn = display.newImageRect( "image/bestscoresBtn.png", 100, 25)
 	bestscoresBtn.x = _W2
-	bestscoresBtn.y = _H2 + 50
+	bestscoresBtn.y = _H2 + 100
 	scene.view:insert(bestscoresBtn)
 
 	creditsBtn = display.newImageRect( "image/creditsBtn.png", 100, 25)
-	creditsBtn.x = _W2
+	creditsBtn.x = _W2 + 150
 	creditsBtn.y = _H2 + 100
 	scene.view:insert(creditsBtn)
 
@@ -131,9 +137,9 @@ local sequenceData = {
 
 player = display.newSprite( playerSheet, sequenceData )
 player.x = - 50
-player.y = _H2 - 50
+player.y = _H - 20
 player.name = "player"
-physics.addBody( player, "dynamic" )
+--physics.addBody( player, "dynamic" )
 player:play()
 playerGroup:insert( player )
 transition.to( player, {time = 20000, x = _W + 50, y = player.y})

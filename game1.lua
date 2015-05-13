@@ -1,6 +1,6 @@
 local composer = require("composer")
 local scene = composer.newScene( )
-
+physics.start( )
 --physics.setDrawMode( "hybrid")
 
 
@@ -51,8 +51,6 @@ local creatCoin = {}
 function scene:create( event )
   local sceneGroup = self.view
   local physycs = require( "physics")  
-  physics.start( )
-  
   --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
@@ -79,8 +77,8 @@ function scene:show( event )
     bg1:addEventListener( 'touch', movePlayer )
     bg2:addEventListener( 'touch', movePlayer )
     bg3:addEventListener( 'touch', movePlayer )
-    tm = timer.performWithDelay( 2000, createBlocks, 0 )
-    tm1 = timer.performWithDelay( 4239, createCoin, 0 )
+    tm = timer.performWithDelay( 1500, createBlocks, 0 )
+    tm1 = timer.performWithDelay( 4200, createCoin, 0 )
     tm2 = timer.performWithDelay( 1000, scoreUp, 0 )
     tm3 = timer.performWithDelay( 10, scoreUp1, 0 )
     Runtime:addEventListener("enterFrame", gameLoop)
@@ -186,8 +184,8 @@ end
 --cria os obstaculos
 function createBlocks(event)
 
-local options = { width = 70, height = 54, numFrames = 4}
-local playerSheet = graphics.newImageSheet( "image/blocksheet.png", options )
+local options = { width = 69, height = 70, numFrames = 4}
+local playerSheet = graphics.newImageSheet( "image/blocksheet1.png", options )
 local sequenceData = {
   { name = "fly", start = 1, count = 4 , time = 1000, loopCount = 0}
 }
@@ -215,7 +213,7 @@ function createCoin(event)
   coin.isSensor = true
   blocks:insert(coin)
 
-  transition.to( coin, {time = speed, x = -30, y = coin.y} )
+  transition.to( coin, {time = speed, x = -30, y = coin.y})
 end
 
 function setupIns( )
@@ -226,13 +224,13 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Distance ', _W - 150, 300, "HoboStd", 16)
+  scoreTxt = display.newText('Distance ', _W - 150, 300, native.systemFontBold, 16)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, "HoboStd", 16)
+  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, native.systemFontBold, 16)
   scoreTxt1:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt1 )
 end
@@ -292,8 +290,8 @@ function velocidade()
 
     --Icon
     local icon = display.newImage('image/speed.png', _W2 , _H2)
-    transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
-      transition.to(icon, {time = 200, alpha = 0.1, onComplete = function() display.remove(icon) icon = nil end}) end) end})
+    transition.from(icon, {time = 200, alpha = 0.2, onComplete = function() timer.performWithDelay(500, function() 
+      transition.to(icon, {time = 200, alpha = 0.2, onComplete = function() display.remove(icon) icon = nil end}) end) end})
 end
 
 function velocidadeUp(event)
@@ -350,7 +348,7 @@ end
  
 
 local options1 = {  
-  effect = "fade", time = 200
+  effect = "fade", time = 1000
 }
 
 function gameOver(  )  

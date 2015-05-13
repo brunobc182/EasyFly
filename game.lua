@@ -1,6 +1,7 @@
 local composer = require("composer")
 local scene = composer.newScene( )
 local physycs = require( "physics")
+physics.start( )
 --physics.setDrawMode( "hybrid")
 
 local coin
@@ -50,7 +51,7 @@ local setupPlayer = {}
 
 function scene:create( event )  
   local sceneGroup = self.view
-  physics.start( )
+  
    --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
@@ -78,8 +79,8 @@ function scene:show( event )
     bg1:addEventListener( 'touch', movePlayer )
     bg2:addEventListener( 'touch', movePlayer )
     bg3:addEventListener( 'touch', movePlayer )
-    tm = timer.performWithDelay( 2000, createBlocks, 0 )
-    tm1 = timer.performWithDelay( 4234, createCoin, 0 )
+    tm = timer.performWithDelay( 1500, createBlocks, 0 )
+    tm1 = timer.performWithDelay( 4200, createCoin, 0 )
     tm2 = timer.performWithDelay( 1000, scoreUp, 0 )
     tm3 = timer.performWithDelay( 10, scoreUp1, 0 )
     Runtime:addEventListener("enterFrame", gameLoop)
@@ -151,7 +152,7 @@ bg3.x = bg2.x + _W
 bg3.y = _H2
 scene.view:insert( bg3 )
 
-coin1 = display.newImageRect( "image/coin1.png", 30, 30)
+coin1 = display.newImage( "image/coin1.png")
 coin1.x = _W - 50
 coin1.y = 300
 scene.view:insert(coin1)
@@ -220,7 +221,7 @@ end
 function createCoin(event)
 
   local rnd = math.floor(math.random() * 3) + 1
-  coin = display.newImageRect( "image/coin.png", 30, 30)
+  coin = display.newImage( "image/coin.png")
   coin.x = _W
   coin.y = yPos[math.floor(math.random() * 3)+1]
   coin.name = 'coin'
@@ -228,7 +229,7 @@ function createCoin(event)
   coin.isSensor = true
   blocks:insert(coin)
 
-  transition.to( coin, {time = speed, x = -30, y = coin.y} )
+  transition.to( coin, {time = speed, x = -30, y = coin.y})
 end
 
 function setupIns( )
@@ -239,13 +240,13 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Distance 0', _W - 150, 300, "HoboStd", 16)
+  scoreTxt = display.newText('Distance 0', _W - 150, 300, native.systemFontBold, 16)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, "HoboStd", 16)
+  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, native.systemFontBold, 16)
   scoreTxt1:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt1 )
 end
@@ -371,11 +372,11 @@ end
 
 
 local options1 = {  
-  effect = "fade", time = 500
+  effect = "fade", time = 1000
 }
 
 function gameOver(  )
-  audio.stop( 2 )
+  audio.stop( 1 )
   display.remove( player )
   transition.cancel( block )
   composer.gotoScene( "gameover", options1 )
