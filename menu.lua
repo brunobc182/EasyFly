@@ -154,7 +154,7 @@ end
 
 function startGame( )
 	audio.stop(1)
-	composer.gotoScene( "game" )
+	composer.gotoScene( "stage" )
 end
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

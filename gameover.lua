@@ -112,7 +112,7 @@ function menuGame( )
 end
 
 function startGame( )
-	composer.gotoScene( "game" )
+	composer.gotoScene( "stage" )
 end
 
 
