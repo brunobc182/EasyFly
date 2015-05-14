@@ -30,6 +30,7 @@ local coin1
 
 
 
+
 --add funções
 local setupPlayer = {}
 local bgScroll = {}
@@ -49,6 +50,7 @@ local creatCoin = {}
 function scene:create( event )
   local sceneGroup = self.view
   local physycs = require( "physics")  
+ 
   --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
@@ -59,8 +61,8 @@ function scene:create( event )
 
 
   --Som do BG
-  local somBG = audio.loadStream( "sound/DST-Saraya.mp3" )
-  audio.play(somBG, {loops = -1, channel = 2})  
+  --local somBG = audio.loadStream( "sound/DST-Saraya.mp3" )
+  --audio.play(somBG, {loops = -1, channel = 2})  
 end 
 
 function scene:show( event )
@@ -134,7 +136,7 @@ function setupBG( )
   scene.view:insert( bg3 )
 
   coin1 = display.newImage( "image/coin1.png")
-  coin1.x = _W - 50
+  coin1.x = _W2 + 50
   coin1.y = 300
   scene.view:insert(coin1)
 
@@ -222,13 +224,13 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Distance 0', _W - 150, 300, native.systemFontBold, 16)
+  scoreTxt = display.newText('Distance 0', _W2 - 50, 300, native.systemFontBold, 16)
   scoreTxt:setTextColor(0, 0, 0)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, native.systemFontBold, 16)
+  scoreTxt1 = display.newText('' .. score1, _W2 + 50, 300, native.systemFontBold, 16)
   scoreTxt1:setTextColor(0, 0, 0)  
   scene.view:insert( scoreTxt1 )
 end

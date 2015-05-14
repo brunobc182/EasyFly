@@ -4,6 +4,7 @@ physics.start( )
 --physics.setDrawMode( "hybrid")
 
 
+
 local coin
 local bg1
 local bg2
@@ -48,7 +49,8 @@ local creatCoin = {}
 
 function scene:create( event )
   local sceneGroup = self.view
-  local physycs = require( "physics")  
+  local physycs = require( "physics") 
+ 
   --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
@@ -134,7 +136,7 @@ function setupBG( )
   scene.view:insert( bg3 )
 
   coin1 = display.newImageRect( "image/coin1.png", 30, 30)
-  coin1.x = _W - 50
+  coin1.x = _W2 + 50
   coin1.y = 300
   scene.view:insert(coin1)
 
@@ -222,13 +224,13 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Distance 0', _W - 150, 300, native.systemFontBold, 16)
+  scoreTxt = display.newText('Distance 0', _W2 - 50, 300, native.systemFontBold, 16)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, native.systemFontBold, 16)
+  scoreTxt1 = display.newText('' .. score1, _W2 + 50, 300, native.systemFontBold, 16)
   scoreTxt1:setTextColor(0, 0, 0)
   scene.view:insert( scoreTxt1 )
 end
@@ -350,7 +352,7 @@ local options1 = {
 }
 
 function gameOver(  )
-  audio.stop( 1 )
+  audio.stop( 2 )
   display.remove( player )
   display.remove( block )
   transition.cancel( block )

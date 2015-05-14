@@ -14,8 +14,10 @@ local scoreFinal
 local scoreFinalTxT
 local scoreInfo
 local iconGameOver
-
+local tempScore = score
+local tempScore1 = score1
 local finalScore = {}
+
 
 
 local function onSceneTouch( event )
@@ -27,7 +29,7 @@ local function onSceneTouch( event )
 end
 
 function scene:create( event )
-	local sceneGroup = self.view
+	local sceneGroup = self.view	
 
 	finalScore()
 
@@ -56,11 +58,11 @@ function scene:create( event )
 	iconGameOver.y = _H2 + 20
 	sceneGroup:insert(iconGameOver)	
 
-	scoreTxt = display.newText('' .. score, _W2 - 25, _H2 + 20, native.systemFontBold, 16)
+	scoreTxt = display.newText('' .. tempScore, _W2 - 25, _H2 + 20, native.systemFontBold, 16)
   	scoreTxt:setTextColor(255, 255, 255)
   	scene.view:insert( scoreTxt )
 
-  	scoreTxt1 = display.newText('' .. score1, _W2 - 25, _H2 - 25, native.systemFontBold, 16)
+  	scoreTxt1 = display.newText('' .. tempScore1, _W2 - 25, _H2 - 25, native.systemFontBold, 16)
   	scoreTxt1:setTextColor(255, 255, 255)
  	scene.view:insert( scoreTxt1)
 
@@ -96,18 +98,16 @@ function scene:hide( event )
 
 	if (phase == "will") then
 		menuBtn:removeEventListener( "tap", menuGame )
-		retryBtn:removeEventListener( "tap", startGame )
-		score = 0
-		score1 = 1
+		retryBtn:removeEventListener( "tap", startGame )	
 	end
 end
 
 
 function finalScore( )
-	scoreFinal = score * score1
+	scoreFinal = tempScore * tempScore1
 end
 
-function menuGame( )	
+function menuGame( )		
 	composer.gotoScene( "menu" )
 end
 
@@ -119,7 +119,6 @@ end
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
-
 
 return scene
 

@@ -7,9 +7,9 @@ _H = display.contentHeight
 _W2 = display.contentCenterX
 _H2 = display.contentCenterY
 
-score = 0
-score1 = 1
-
 local composer = require ("composer")
 composer.gotoScene( "menu" )
+
+score = 0
+score1 = 1
 

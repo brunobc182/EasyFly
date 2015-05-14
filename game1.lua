@@ -4,6 +4,9 @@ local physycs = require( "physics")
 physics.start( )
 --physics.setDrawMode( "hybrid")
 
+
+
+
 local coin
 local bg1
 local bg2
@@ -49,7 +52,7 @@ local setupPlayer = {}
 
 function scene:create( event )  
   local sceneGroup = self.view
-  
+ 
    --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
@@ -84,8 +87,7 @@ function scene:show( event )
     Runtime:addEventListener("enterFrame", gameLoop)
     Runtime:addEventListener("collision", onLocalCollision)
     speedTm = timer.performWithDelay( 1005, velocidadeUp, 0 )
-    tm4 = timer.performWithDelay( 10, nextLevel, 0 )
-  end
+    end
 end
 
 function scene:hide( event )
@@ -108,8 +110,6 @@ function scene:hide( event )
     tm2 = nil
     timer.cancel(tm3)
     tm3 = nil
-    timer.cancel(tm4)
-    tm4 = nil
     timer.cancel( speedTm )
     speedTm = nil
     elseif (phase == "did") then
@@ -151,7 +151,7 @@ bg3.y = _H2
 scene.view:insert( bg3 )
 
 coin1 = display.newImage( "image/coin1.png")
-coin1.x = _W - 50
+coin1.x = _W2 + 50
 coin1.y = 300
 scene.view:insert(coin1)
 
@@ -238,13 +238,13 @@ function setupIns( )
 end
 
 function setupScore( )
-  scoreTxt = display.newText('Distance 0', _W - 150, 300, native.systemFontBold, 16)
+  scoreTxt = display.newText('Distance 0', _W2 - 50, 300, native.systemFontBold, 16)
   scoreTxt:setTextColor(255, 255, 255)
   scene.view:insert( scoreTxt )
 end
 
 function setupScore1 ( )
-  scoreTxt1 = display.newText('' .. score1, _W - 50, 300, native.systemFontBold, 16)
+  scoreTxt1 = display.newText('' .. score1, _W2 + 50, 300, native.systemFontBold, 16)
   scoreTxt1:setTextColor(0, 0, 0)
   scene.view:insert( scoreTxt1 )
 end
