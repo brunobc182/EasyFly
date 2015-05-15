@@ -4,7 +4,6 @@ physics.start( )
 --physics.setDrawMode( "hybrid")
 
 
-
 local coin
 local bg1
 local bg2
@@ -71,6 +70,7 @@ function scene:show( event )
   
   local previousScene = composer.getSceneName( "previous" )
   composer.removeScene( previousScene )
+  composer.removeScene( "gameover")
    
   if (phase == "did") then
     bg:addEventListener( 'touch', movePlayer )    

@@ -71,6 +71,7 @@ function scene:show( event )
   
   local previousScene = composer.getSceneName( "previous" )
   composer.removeScene( previousScene )
+  composer.removeScene( "gameover")
    
   if (phase == "did") then
     bg:addEventListener( 'touch', movePlayer )    

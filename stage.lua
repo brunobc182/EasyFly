@@ -12,8 +12,6 @@ local stage2Btn
 local stage3Btn
 local stage4Btn
 
-score = 0
-score1 = 1
 
 
 function scene:create( event )

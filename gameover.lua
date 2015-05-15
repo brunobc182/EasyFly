@@ -14,10 +14,7 @@ local scoreFinal
 local scoreFinalTxT
 local scoreInfo
 local iconGameOver
-local tempScore = score
-local tempScore1 = score1
 local finalScore = {}
-
 
 
 local function onSceneTouch( event )
@@ -58,11 +55,11 @@ function scene:create( event )
 	iconGameOver.y = _H2 + 20
 	sceneGroup:insert(iconGameOver)	
 
-	scoreTxt = display.newText('' .. tempScore, _W2 - 25, _H2 + 20, native.systemFontBold, 16)
+	scoreTxt = display.newText('' .. score, _W2 - 25, _H2 + 20, native.systemFontBold, 16)
   	scoreTxt:setTextColor(255, 255, 255)
   	scene.view:insert( scoreTxt )
 
-  	scoreTxt1 = display.newText('' .. tempScore1, _W2 - 25, _H2 - 25, native.systemFontBold, 16)
+  	scoreTxt1 = display.newText('' .. score1, _W2 - 25, _H2 - 25, native.systemFontBold, 16)
   	scoreTxt1:setTextColor(255, 255, 255)
  	scene.view:insert( scoreTxt1)
 
@@ -82,6 +79,12 @@ function scene:show( event )
 
 	local previousScene = composer.getSceneName( "previous" )
     composer.removeScene( previousScene )
+    --[[composer.removeScene( "stage")
+    composer.removeScene( "menu")
+    composer.removeScene( "game1")
+    composer.removeScene( "game2")
+    composer.removeScene( "game3")
+    composer.removeScene( "game4")--]]
 
 	if (phase == "will") then
 	end
@@ -104,15 +107,19 @@ end
 
 
 function finalScore( )
-	scoreFinal = tempScore * tempScore1
+	scoreFinal = score * score1
 end
 
 function menuGame( )		
 	composer.gotoScene( "menu" )
+	score = 0
+	score1 = 1
 end
 
 function startGame( )
 	composer.gotoScene( "stage" )
+	score = 0
+	score1 = 1
 end
 
 

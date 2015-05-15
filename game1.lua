@@ -15,7 +15,7 @@ local bg
 local blocks --criação de blocos
 local up = false --determinina se o player vai para cima
 local blockTime -- tempo do block
-local speed = 3000 -- velocidade os obstaculos
+local speed = 5000 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
 local tm1
 local tm2 -- Aumentar o score
@@ -26,11 +26,12 @@ local yPos = {50, _H2, _H - 50}
 local create = 2000
 local impulse = - 60 --faz o player subir
 local scroll = 2 --velocidade do BG
-local scoreTxt
+local scoreTxt 
 local scoreTxt1
 local texto
 local playerGroup
 local coin1
+
 
 
 
@@ -73,6 +74,7 @@ function scene:show( event )
   
   local previousScene = composer.getSceneName( "previous" )
   composer.removeScene( previousScene )
+  composer.removeScene( "gameover")
    
   if (phase == "did") then    
    
@@ -124,7 +126,7 @@ function scene:destroy( event )
   display.remove( bg1 ) 
   display.remove( bg2 )
   display.remove( bg3 )--]]
-  display.remove( newRect ) 
+  --display.remove( newRect ) 
 end
 
 function setupBG( )
@@ -299,10 +301,7 @@ function scoreUp1( )
 end
 
 function velocidade()
-    speed = speed - 1000
-    --texto.text = "Velocidade "..speed
-    --create = create - 1000
-
+    speed = speed - 1000 
     --Icon
     local icon = display.newImage('image/speed.png', _W2 , _H2)
     transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
