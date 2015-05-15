@@ -12,7 +12,7 @@ local bg
 local blocks --criação de blocos
 local up = false --determinina se o player vai para cima
 local blockTime -- tempo do block
-local speed = 3000 -- velocidade os obstaculos
+local speed = 5000 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
 local tm1
 local tm2 -- Aumentar o score
@@ -78,8 +78,8 @@ function scene:show( event )
     bg1:addEventListener( 'touch', movePlayer )
     bg2:addEventListener( 'touch', movePlayer )
     bg3:addEventListener( 'touch', movePlayer )
-    tm = timer.performWithDelay( 1500, createBlocks, 0 )
-    tm1 = timer.performWithDelay( 4200, createCoin, 0 )
+    tm = timer.performWithDelay( 1800, createBlocks, 0 )
+    tm1 = timer.performWithDelay( 5000, createCoin, 0 )
     tm2 = timer.performWithDelay( 1000, scoreUp, 0 )
     tm3 = timer.performWithDelay( 10, scoreUp1, 0 )
     Runtime:addEventListener("enterFrame", gameLoop)

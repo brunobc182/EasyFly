@@ -28,7 +28,7 @@ function scene:create( event )
 
 	setupBG()
 	setupGroups()
-	setupPlayer()
+	--setupPlayer()
 	
 end
 
@@ -90,23 +90,23 @@ function setupBG(  )
 
 	iconMainScreen = display.newImage("image/iconMainScreen.png")
 	iconMainScreen.x = _W2
-	iconMainScreen.y = _H2
+	iconMainScreen.y = _H2 + 10
 	scene.view:insert(iconMainScreen)	
 	
 
-	playBtn = display.newImageRect( "image/playBtn.png", 100, 25)
+	playBtn = display.newImage( "image/playBtn.png")
 	playBtn.x = _W2 - 150
-	playBtn.y = _H2 + 100
+	playBtn.y = _H2 + 120
 	scene.view:insert(playBtn)
 
-	bestscoresBtn = display.newImageRect( "image/bestscoresBtn.png", 100, 25)
+	bestscoresBtn = display.newImage( "image/howtoplayBtn.png")
 	bestscoresBtn.x = _W2
-	bestscoresBtn.y = _H2 + 100
+	bestscoresBtn.y = _H2 + 120
 	scene.view:insert(bestscoresBtn)
 
-	creditsBtn = display.newImageRect( "image/creditsBtn.png", 100, 25)
+	creditsBtn = display.newImage( "image/creditsBtn.png")
 	creditsBtn.x = _W2 + 150
-	creditsBtn.y = _H2 + 100
+	creditsBtn.y = _H2 + 120
 	scene.view:insert(creditsBtn)
 
 end
@@ -127,7 +127,7 @@ cloud3:translate( _W * 3, 0 )
   end
 end
 
-function setupPlayer( )
+--[[function setupPlayer( )
 
 local options = { width = 50, height = 41, numFrames = 8}
 local playerSheet = graphics.newImageSheet( "image/playerSheet.png", options )
@@ -136,21 +136,22 @@ local sequenceData = {
 }
 
 player = display.newSprite( playerSheet, sequenceData )
-player.x = - 50
+player.x = -50
 player.y = _H - 20
 player.name = "player"
 --physics.addBody( player, "dynamic" )
 player:play()
 playerGroup:insert( player )
 transition.to( player, {time = 20000, x = _W + 50, y = player.y})
-end
+end--]]
 
 
 
---[[local options = {
+
+local options = {
 	
-	effect = "fade", time = 100
-}--]]
+	effect = "fade", time = 1000
+}
 
 function startGame( )
 	audio.stop(1)

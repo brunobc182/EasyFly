@@ -23,7 +23,7 @@ local tm3 -- atualiza o mutiplicador
 local tm4
 local speedTm -- amumentar velocidade dos blocks
 local yPos = {50, _H2, _H - 50}
-local create = 2000
+local create = 2500
 local impulse = - 60 --faz o player subir
 local scroll = 2 --velocidade do BG
 local scoreTxt 
@@ -82,8 +82,8 @@ function scene:show( event )
     bg1:addEventListener( 'touch', movePlayer )
     bg2:addEventListener( 'touch', movePlayer )
     bg3:addEventListener( 'touch', movePlayer )
-    tm = timer.performWithDelay( 1500, createBlocks, 0 )
-    tm1 = timer.performWithDelay( 4200, createCoin, 0 )
+    tm = timer.performWithDelay( 1800, createBlocks, 0 )
+    tm1 = timer.performWithDelay( 5000, createCoin, 0 )
     tm2 = timer.performWithDelay( 1000, scoreUp, 0 )
     tm3 = timer.performWithDelay( 10, scoreUp1, 0 )
     Runtime:addEventListener("enterFrame", gameLoop)
@@ -301,7 +301,7 @@ function scoreUp1( )
 end
 
 function velocidade()
-    speed = speed - 1000 
+    speed = speed - 1000
     --Icon
     local icon = display.newImage('image/speed.png', _W2 , _H2)
     transition.from(icon, {time = 200, alpha = 0.1, onComplete = function() timer.performWithDelay(500, function() 
