@@ -17,13 +17,6 @@ local iconGameOver
 local finalScore = {}
 
 
-local function onSceneTouch( event )
-	local phase = event.phase
-
-	if "ended" == phase then		
-		composer.gotoScene( "game", "fade", 500  )
-	end
-end
 
 function scene:create( event )
 	local sceneGroup = self.view	
@@ -110,14 +103,19 @@ function finalScore( )
 	scoreFinal = score * score1
 end
 
+local options = {
+	
+	effect = "fade", time = 250
+}
+
 function menuGame( )		
-	composer.gotoScene( "menu" )
+	composer.gotoScene( "menu", options )
 	score = 0
 	score1 = 1
 end
 
 function startGame( )
-	composer.gotoScene( "stage" )
+	composer.gotoScene( "stage", options )
 	score = 0
 	score1 = 1
 end

@@ -12,7 +12,7 @@ local bg
 local blocks --criação de blocos
 local up = false --determinina se o player vai para cima
 local blockTime -- tempo do block
-local speed = 3000 -- velocidade os obstaculos
+local speed = 5500 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
 local tm1
 local tm2 -- Aumentar o score
@@ -27,6 +27,7 @@ local scoreTxt1
 local texto
 local playerGroup
 local coin1
+local scoreBG
 
 
 
@@ -50,6 +51,9 @@ function scene:create( event )
   local sceneGroup = self.view
   local physycs = require( "physics") 
 
+    local somBG = audio.loadStream( "sound/DST-TechnoBump.mp3" )
+  audio.play(somBG, {loops = -1, channel = 3})  
+
  
   --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
@@ -71,6 +75,7 @@ function scene:show( event )
   
   local previousScene = composer.getSceneName( "previous" )
   composer.removeScene( previousScene )
+  composer.removeScene( "menu")
   composer.removeScene( "gameover")
    
   if (phase == "did") then
@@ -140,6 +145,11 @@ function setupBG( )
   coin1.x = _W2 + 50
   coin1.y = 300
   scene.view:insert(coin1)
+
+  scoreBG = display.newImage( "image/scoreBG.png")
+  scoreBG.x = _W2 - 50
+  scoreBG.y = 300
+  scene.view:insert(scoreBG)
 
 
 
@@ -285,7 +295,7 @@ function scoreUp1( )
 end
 
 function velocidade()
-    speed = speed - 500
+    speed = speed - 1000
     --texto.text = "Velocidade "..speed
     --create = create - 1000
 
@@ -349,11 +359,11 @@ end
  
 
 local options1 = {  
-  effect = "fade", time = 1000
+  effect = "fade", time = 500
 }
 
 function gameOver(  )
-  audio.stop( 1 )
+  audio.stop( 3 )
   display.remove( player )
   display.remove( block )
   transition.cancel( block )

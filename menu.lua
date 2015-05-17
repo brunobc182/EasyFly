@@ -8,7 +8,7 @@ local scene = composer.newScene( )
 local menuBG
 local playBtn
 local creditsBtn
-local bestscoresBtn
+local howtoplayBtn
 local scroll = 1
 local cloud1
 local cloud2
@@ -18,6 +18,8 @@ local bg
 local easyFlyLogo
 local bgScroll = {}
 local setupPlayer = {}
+local howToPlay = {}
+
 
 
 
@@ -35,9 +37,16 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
+	composer.removeScene( "howtoplay1")
+	composer.removeScene( "howtoplay2")
+	composer.removeScene( "credits1")
+	composer.removeScene( "credits2")
+	composer.removeScene( "credits3")
 	if (phase == "will") then		
 	elseif (phase == "did") then
 		playBtn:addEventListener( "tap", startGame )
+		howtoplayBtn:addEventListener( "tap", howToPlay )
+		creditsBtn:addEventListener( "tap", credits )
 		Runtime:addEventListener( "enterFrame", bgScroll )
 	end
 end
@@ -48,6 +57,8 @@ function scene:hide( event )
 
 	if (phase == "will") then
 		playBtn:removeEventListener( "tap", startGame )
+		howtoplayBtn:removeEventListener( "tap", howToPlay )
+		creditsBtn:removeEventListener( "tap", credits )
 		Runtime:removeEventListener( "enterFrame", bgScroll )
 		end
 end
@@ -99,10 +110,10 @@ function setupBG(  )
 	playBtn.y = _H2 + 120
 	scene.view:insert(playBtn)
 
-	bestscoresBtn = display.newImage( "image/howtoplayBtn.png")
-	bestscoresBtn.x = _W2
-	bestscoresBtn.y = _H2 + 120
-	scene.view:insert(bestscoresBtn)
+	howtoplayBtn = display.newImage( "image/howtoplayBtn.png")
+	howtoplayBtn.x = _W2
+	howtoplayBtn.y = _H2 + 120
+	scene.view:insert(howtoplayBtn)
 
 	creditsBtn = display.newImage( "image/creditsBtn.png")
 	creditsBtn.x = _W2 + 150
@@ -127,36 +138,27 @@ cloud3:translate( _W * 3, 0 )
   end
 end
 
---[[function setupPlayer( )
-
-local options = { width = 50, height = 41, numFrames = 8}
-local playerSheet = graphics.newImageSheet( "image/playerSheet.png", options )
-local sequenceData = {
-  { name = "fly", start = 1, count = 8 , time = 1000, loopCount = 0}
-}
-
-player = display.newSprite( playerSheet, sequenceData )
-player.x = -50
-player.y = _H - 20
-player.name = "player"
---physics.addBody( player, "dynamic" )
-player:play()
-playerGroup:insert( player )
-transition.to( player, {time = 20000, x = _W + 50, y = player.y})
-end--]]
-
-
-
-
 local options = {
 	
-	effect = "fade", time = 1000
+	effect = "fade", time = 500
 }
 
 function startGame( )
-	audio.stop(1)
-	composer.gotoScene( "stage" )
+		
+	composer.gotoScene( "stage", options)
 end
+
+function howToPlay( )
+	audio.stop(1)
+	composer.gotoScene( "howtoplay1", options)
+end
+
+function credits( )
+	audio.stop(1)
+	composer.gotoScene( "credits1", options)
+end
+
+
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )

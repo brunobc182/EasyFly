@@ -15,7 +15,7 @@ local bg
 local blocks --criação de blocos
 local up = false --determinina se o player vai para cima
 local blockTime -- tempo do block
-local speed = 5000 -- velocidade os obstaculos
+local speed = 5500 -- velocidade os obstaculos
 local tm --cancelar a criação de Blocos
 local tm1
 local tm2 -- Aumentar o score
@@ -31,6 +31,7 @@ local scoreTxt1
 local texto
 local playerGroup
 local coin1
+local scoreBG
 
 
 
@@ -65,8 +66,10 @@ function scene:create( event )
 
   --Som do BG
   local somBG = audio.loadStream( "sound/Jumpshot _Eric Skiff.mp3" )
-  audio.play(somBG, {loops = -1, channel = 1})  
-end 
+  audio.play(somBG, {loops = -1, channel = 1})
+  audio.setVolume( 0.50 , { channel=1 }) 
+
+end
 
 function scene:show( event )
   local sceneGroup = self.view
@@ -74,6 +77,7 @@ function scene:show( event )
   
   local previousScene = composer.getSceneName( "previous" )
   composer.removeScene( previousScene )
+  composer.removeScene( "menu")
   composer.removeScene( "gameover")
    
   if (phase == "did") then    
@@ -132,44 +136,49 @@ end
 function setupBG( )
   --add Imagens do BG
 
-bg = display.newImageRect("image/bgAzul.png", _W, _H)
-bg.x = _W2
-bg.y = _H2
-scene.view:insert( bg)
+  bg = display.newImageRect("image/bgAzul.png", _W, _H)
+  bg.x = _W2
+  bg.y = _H2
+  scene.view:insert( bg)
 
-bg1 = display.newImageRect("image/bg04.png", _W, _H)
-bg1.x = _W2
-bg1.y = _H2
-scene.view:insert( bg1 )
+  bg1 = display.newImageRect("image/bg04.png", _W, _H)
+  bg1.x = _W2
+  bg1.y = _H2
+  scene.view:insert( bg1 )
 
-bg2 = display.newImageRect("image/bg04.png", _W, _H)
-bg2.x = bg1.x + _W
-bg2.y = _H2
-scene.view:insert( bg2 )
+  bg2 = display.newImageRect("image/bg04.png", _W, _H)
+  bg2.x = bg1.x + _W
+  bg2.y = _H2
+  scene.view:insert( bg2 )
 
-bg3 = display.newImageRect("image/bg04.png", _W, _H)
-bg3.x = bg2.x + _W
-bg3.y = _H2
-scene.view:insert( bg3 )
+  bg3 = display.newImageRect("image/bg04.png", _W, _H)
+  bg3.x = bg2.x + _W
+  bg3.y = _H2
+  scene.view:insert( bg3 )
 
-coin1 = display.newImage( "image/coin1.png")
-coin1.x = _W2 + 50
-coin1.y = 300
-scene.view:insert(coin1)
+  coin1 = display.newImage( "image/coin1.png")
+  coin1.x = _W2 + 50
+  coin1.y = 300
+  scene.view:insert(coin1)
+
+  scoreBG = display.newImage( "image/scoreBG.png")
+  scoreBG.x = _W2 - 50
+  scoreBG.y = 300
+  scene.view:insert(scoreBG)
 
 
---add Teto e piso
-teto = display.newRect( _W2, -1, _W+100, 1 )
-teto:setFillColor( 0,0,0 )
-physics.addBody( teto, "static" )
-teto.name = "teto"
-scene.view:insert( teto )
+  --add Teto e piso
+  teto = display.newRect( _W2, -1, _W+100, 1 )
+  teto:setFillColor( 0,0,0 )
+  physics.addBody( teto, "static" )
+  teto.name = "teto"
+  scene.view:insert( teto )
 
-piso = display.newRect( _W2, _H, _W+100, 1 )
-piso:setFillColor( 0, 0, 0 )
-physics.addBody( piso, "static" )
-piso.name = "piso"
-scene.view:insert( piso )
+  piso = display.newRect( _W2, _H, _W+100, 1 )
+  piso:setFillColor( 0, 0, 0 )
+  physics.addBody( piso, "static" )
+  piso.name = "piso"
+  scene.view:insert( piso )
 end
 
 function setupGroups( )
@@ -241,7 +250,7 @@ end
 
 function setupScore( )
   scoreTxt = display.newText('Distance 0', _W2 - 50, 300, native.systemFontBold, 16)
-  scoreTxt:setTextColor(255, 255, 255)
+  scoreTxt:setTextColor(0, 0, 0)
   scene.view:insert( scoreTxt )
 end
 
