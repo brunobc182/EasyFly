@@ -7,6 +7,7 @@ local composer = require("composer")
 local scene = composer.newScene( )
 local stageBG
 local stageBG1
+local menuBtn
 local stage1Btn
 local stage2Btn
 local stage3Btn
@@ -24,6 +25,7 @@ function scene:show( event )
 	local phase = event.phase
 	if (phase == "will") then		
 	elseif (phase == "did") then
+		menuBtn:addEventListener( "tap", menu)
 		stage1Btn:addEventListener( "tap", stage1)
 		stage2Btn:addEventListener( "tap", stage2 )
 		stage3Btn:addEventListener( "tap", stage3 )
@@ -37,6 +39,7 @@ function scene:hide( event )
 	local phase = event.phase
 
 	if (phase == "will") then
+		menuBtn:removeEventListener( "tap", menu )
 		stage1Btn:removeEventListener( "tap", stage1 )
 		stage2Btn:removeEventListener( "tap", stage2 )
 		stage3Btn:removeEventListener( "tap", stage3 )
@@ -77,13 +80,22 @@ function setupBG(  )
 	stage4Btn.y = 240
 	scene.view:insert( stage4Btn )
 
+	menuBtn = display.newImage( "image/menuBtn1.png")
+	menuBtn.x = _W2
+	menuBtn.y = _H2 + 120
+	scene.view:insert(menuBtn)
+
 end
 
 
---[[local options = {
+local options = {
 	
-	effect = "fade", time = 100
-}--]]
+	effect = "fade", time = 500
+}
+
+function menu( )	
+	composer.gotoScene( "menu", options )
+end
 
 function stage1( )
 	audio.stop(1)
