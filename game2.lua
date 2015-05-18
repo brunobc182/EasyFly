@@ -231,7 +231,7 @@ end
 
 function setupScore( )
   scoreTxt = display.newText('Distance 0', _W2 - 50, 300, native.systemFontBold, 16)
-  scoreTxt:setTextColor(255, 255, 255)
+  scoreTxt:setTextColor(0, 0, 0)
   scene.view:insert( scoreTxt )
 end
 

@@ -12,7 +12,10 @@ local nextBtn
 
 
 function scene:create( event )
-	local sceneGroup = self.view	
+	local sceneGroup = self.view
+
+	local somBG = audio.loadStream( "sound/DST-Canopy.mp3" )
+  	audio.play(somBG, {loops = -1, channel = 1}) 	
 
 	
 	howToPlayBG = display.newImageRect( "image/howtoplayBG1.png", _W, _H )
@@ -72,9 +75,9 @@ local options1 = {
 	effect = "fromRight", time = 500
 }
 
-function menuGame( )		
-	composer.gotoScene( "menu", options )
-	
+function menuGame( )
+	audio.stop( 1 )		
+	composer.gotoScene( "menu", options )	
 end
 
 function howToPlay2( )

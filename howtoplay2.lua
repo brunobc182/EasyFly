@@ -72,7 +72,8 @@ local options1 = {
 	effect = "fromLeft", time = 500
 }
 
-function menuGame( )		
+function menuGame( )
+	audio.stop( 1 )		
 	composer.gotoScene( "menu", options )
 	
 end

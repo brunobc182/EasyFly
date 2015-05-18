@@ -122,16 +122,6 @@ function scene:hide( event )
     end
 end
 
-function scene:destroy( event )
-  local sceneGroup = self.view
-  --[[display.remove( player )
-  display.remove( block )
-  display.remove( bg )
-  display.remove( bg1 ) 
-  display.remove( bg2 )
-  display.remove( bg3 )--]]
-  --display.remove( newRect ) 
-end
 
 function setupBG( )
   --add Imagens do BG
@@ -392,7 +382,6 @@ end
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
-scene:addEventListener( "destroy", scene )
 
 return scene
 
