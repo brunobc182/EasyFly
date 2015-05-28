@@ -1,8 +1,3 @@
-
---CRIANDO O MENU DO JOGO
-
------------------------------------------------------------------------------------------------------------------------
---physics.setDrawMode( "hybrid")
 local composer = require("composer")
 local scene = composer.newScene( )
 local gameoverBG
@@ -60,10 +55,6 @@ function scene:create( event )
   	scoreFinalTxT:setTextColor(255, 255, 255)
  	scene.view:insert( scoreFinalTxT )
 
-	--[[bestscoresBtn = display.newImage( "image/bestscoresBtn.png")
-	bestscoresBtn.x = 180
-	bestscoresBtn.y = _H2 + 100
-	sceneGroup:insert(bestscoresBtn)--]]
 end
 
 function scene:show( event )
@@ -72,13 +63,7 @@ function scene:show( event )
 
 	local previousScene = composer.getSceneName( "previous" )
     composer.removeScene( previousScene )
-    --[[composer.removeScene( "stage")
-    composer.removeScene( "menu")
-    composer.removeScene( "game1")
-    composer.removeScene( "game2")
-    composer.removeScene( "game3")
-    composer.removeScene( "game4")--]]
-
+    
 	if (phase == "will") then
 	end
 		

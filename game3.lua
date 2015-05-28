@@ -55,7 +55,6 @@ function scene:create( event )
   audio.play(somBG, {loops = -1, channel = 3})  
 
  
-  --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
   setupPlayer()
@@ -63,10 +62,6 @@ function scene:create( event )
   setupScore()
   setupScore1()
 
-
-  --Som do BG
-  --local somBG = audio.loadStream( "sound/DST-Saraya.mp3" )
-  --audio.play(somBG, {loops = -1, channel = 2})  
 end 
 
 function scene:show( event )

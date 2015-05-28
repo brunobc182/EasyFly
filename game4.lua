@@ -62,10 +62,6 @@ function scene:create( event )
   setupScore()
   setupScore1()
 
-
-  --Som do BG
-  --local somBG = audio.loadStream( "sound/DST-Saraya.mp3" )
-  --audio.play(somBG, {loops = -1, channel = 2})  
 end 
 
 function scene:show( event )

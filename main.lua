@@ -13,4 +13,3 @@ composer.gotoScene( "menu" )
 
 score = 0
 score1 = 1
-

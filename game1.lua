@@ -55,7 +55,6 @@ local setupPlayer = {}
 function scene:create( event )  
   local sceneGroup = self.view
  
-   --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
   setupPlayer()

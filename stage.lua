@@ -1,8 +1,4 @@
 
---CRIANDO O MENU DO JOGO
-
---------------------------------------------------------------------------------------------------------------
-
 local composer = require("composer")
 local scene = composer.newScene( )
 local stageBG

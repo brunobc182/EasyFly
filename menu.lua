@@ -1,8 +1,4 @@
 
---CRIANDO O MENU DO JOGO
-
---------------------------------------------------------------------------------------------------------------
-
 local composer = require("composer")
 local scene = composer.newScene( )
 local menuBG
@@ -30,8 +26,7 @@ function scene:create( event )
 
 	setupBG()
 	setupGroups()
-	--setupPlayer()
-	
+		
 end
 
 function scene:show( event )

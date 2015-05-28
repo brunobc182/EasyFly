@@ -50,7 +50,6 @@ function scene:create( event )
   local sceneGroup = self.view
   local physycs = require( "physics") 
  
-  --texto = display.newText( "Velocidade"..speed, display.contentHeight/2, display.contentWidth /2, nil, 50, false )
   setupBG()  
   setupGroups()
   setupPlayer()
@@ -190,7 +189,7 @@ end
 --cria os obstaculos
 function createBlocks(event)
 
-  local options = { width = 69, height = 70, numFrames = 4}
+  local options = { width = 68, height = 56, numFrames = 4}
   local playerSheet = graphics.newImageSheet( "image/blocksheet1.png", options )
   local sequenceData = {
     { name = "fly", start = 1, count = 4 , time = 1000, loopCount = 0}

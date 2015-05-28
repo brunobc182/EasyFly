@@ -1,8 +1,4 @@
 
---CRIANDO O HOW TO PLAY
-
------------------------------------------------------------------------------------------------------------------------
---physics.setDrawMode( "hybrid")
 local composer = require("composer")
 local scene = composer.newScene( )
 local creditsBG
