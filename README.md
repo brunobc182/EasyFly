@@ -1,4 +1,3 @@
 # EasyFly
-Developing a game for the discipline of Estágio I - FA7
+Development of a endless run based game for the discipline of Estágio I - FA7, using Lua language and Corona SDK.
 
-Developing of a endless run based game using Lua language and Corona SDK.
